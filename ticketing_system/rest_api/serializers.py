@@ -11,6 +11,12 @@ class TicketSerializer(serializers.Serializer):
         model = Ticket
         fields = '__all__'
 
+    def create(self, validated_data):
+        ticket = Ticket(**validated_data)
+        ticket.author = self.context['user']
+        ticket.save()
+        return ticket
+
 class TicketListSerializer(serializers.Serializer):
     class Meta:
         model = Ticket
