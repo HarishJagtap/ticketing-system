@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .serializers import UserSerializer, TicketListSerializer, TicketSerializer
 from .login.token_manager import TokenManager
@@ -77,7 +78,7 @@ class TicketDetail(APIView):
     def get(self, request, pk):
         try:
             ticket = Ticket.objects.get(pk=pk)
-        except ticket.DoesNotExist:
+        except Ticket.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = TicketSerializer(ticket)
