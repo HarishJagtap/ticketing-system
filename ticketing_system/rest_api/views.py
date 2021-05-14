@@ -3,11 +3,14 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .serializers import UserSerializer, TicketListSerializer, TicketSerializer
+from .serializers import (
+    UserSerializer, TicketListSerializer, 
+    TicketSerializer, TicketDetailSerializer)
 from .login.token_manager import TokenManager
 from .response import login_response, ticket_response
 from .ticket.decorators import fetch_requested_pageno
 from .models import Ticket
+import rest_api.ticket.fields as fields
 
 
 class UserLogin(APIView):
@@ -43,6 +46,15 @@ class TicketList(APIView):
         to_pk = page * count - 1
         
         query_set = Ticket.objects.all()
+
+        if 'category' in request.GET:
+            query_set = query_set.filter(category=request.GET['category'])
+        
+        if 'impact' in request.GET:
+            impact_int_value = fields.impact_field_to_internal_value(
+                request.GET['impact'])
+            query_set = query_set.filter(impact=impact_int_value)
+
         if from_pk < 0 or from_pk >= query_set.count():
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -62,7 +74,7 @@ class TicketList(APIView):
                     request.build_absolute_uri().split('?')[0],
                     page - 1)
 
-        return ticket_response.paginated_ticket_list_response()(
+        return ticket_response.paginated_ticket_list_response(
                 next_link, prev_link, serializer.data)
 
     def post(self, request):
@@ -81,5 +93,5 @@ class TicketDetail(APIView):
         except Ticket.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = TicketSerializer(ticket)
+        serializer = TicketDetailSerializer(ticket)
         return Response(serializer.data)
