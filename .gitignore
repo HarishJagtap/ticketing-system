@@ -2,3 +2,4 @@ env/
 settings.txt
 db.sqlite3
 __pycache__/
+000*
