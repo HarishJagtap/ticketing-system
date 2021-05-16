@@ -12,6 +12,9 @@ Setup Virtual Environment<br>
 Goto Backend directory<br>
 `cd ticketing_system\`<br><br>
 
+Set Django Secret Key<br>
+`set SECRET_KEY="Some Random Secret"`<br><br>
+
 Install Dependencies and Setup DB<br>
 `pip install -r requirements.txt`<br>
 `python manage.py makemigrations`<br>
