@@ -1,17 +1,17 @@
 <template>
     <div>
-        <TicketList/>
+        <TicketForm/>
     </div>
 </template>
 
 <script>
-import TicketList from '../components/TicketList'
+import TicketForm from '../components/TicketForm'
 
 export default {
-    name: 'Home',
+    name: 'Create',
     
     components: {
-        TicketList
+        TicketForm
     },
 };
 </script>

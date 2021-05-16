@@ -74,6 +74,21 @@ class TicketList(APIView):
                     request.build_absolute_uri().split('?')[0],
                     page - 1)
 
+        category = request.GET.get("category", None)
+        impact = request.GET.get("impact", None)
+
+        if category is not None:
+            if next_link is not None:
+                next_link = "{}&category={}".format(next_link, category)
+            if prev_link is not None:
+                prev_link = "{}&category={}".format(prev_link, category)
+
+        if impact is not None:
+            if next_link is not None:
+                next_link = "{}&impact={}".format(next_link, impact)
+            if prev_link is not None:
+                prev_link = "{}&impact={}".format(prev_link, impact)
+
         return ticket_response.paginated_ticket_list_response(
                 next_link, prev_link, serializer.data)
 
