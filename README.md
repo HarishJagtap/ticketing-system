@@ -10,7 +10,7 @@ Setup Virtual Environment<br>
 `env\Scripts\activate`<br><br>
 
 Goto Backend directory<br>
-`cd ticketing-system\`<br><br>
+`cd ticketing_system\`<br><br>
 
 Install Dependencies and Setup DB<br>
 `pip install -r requirements.txt`<br>
